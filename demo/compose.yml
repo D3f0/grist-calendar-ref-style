@@ -1,0 +1,52 @@
+# Try the calendar-ref-style widget in Docker.
+#
+#   cd widgets/calendar-ref-style/demo
+#   docker compose up -d
+#
+# Then open http://localhost:8484 and add a Custom widget pointing at
+#   http://localhost:8788/index.html
+# (see ./README.md for the full walkthrough).
+#
+# Grist is pinned to the image digest used by the mcp-gryster compatibility matrix.
+
+name: calendar-ref-style-demo
+
+services:
+  grist:
+    image: gristlabs/grist:1.7.19@sha256:a39b36a52059a72171d88803b8225f5a405001337717613299edfebe7c7096d3
+    ports:
+      - "8484:8484"
+    environment:
+      # Local-only demo values. Do NOT reuse these in a real deployment.
+      GRIST_SESSION_SECRET: calendar-ref-style-demo-not-secret
+      GRIST_DEFAULT_EMAIL: you@example.com
+      # Skip the one-time boot key + Quick setup wizard: this is a trusted local box.
+      GRIST_IN_SERVICE: "true"
+      # No SSO in this demo; enable Grist's dev sign-in so you get a persistent
+      # personal site (documents survive restarts in the grist-data volume).
+      GRIST_TEST_LOGIN: "1"
+      # Also allow a throwaway document with no sign-in at all.
+      GRIST_ANON_PLAYGROUND: "true"
+      # gvisor is unavailable on most laptops; this demo runs formulas unsandboxed.
+      GRIST_SANDBOX_FLAVOR: unsandboxed
+    volumes:
+      - grist-data:/persist
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8484/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  # Static server for the widget's src/ files, on a different origin (port) than
+  # Grist so it is treated as a cross-origin custom widget.
+  widget:
+    image: python:3.12-alpine
+    working_dir: /srv
+    command: ["python", "-m", "http.server", "8788"]
+    ports:
+      - "8788:8788"
+    volumes:
+      - ../src:/srv:ro
+
+volumes:
+  grist-data:

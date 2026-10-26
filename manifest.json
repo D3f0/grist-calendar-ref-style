@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Calendar (reference styling)",
+    "url": "__PAGES_BASE__/index.html",
+    "widgetId": "@custom/widget-calendar-ref-style",
+    "published": true,
+    "accessLevel": "full",
+    "renderAfterReady": true,
+    "description": "Calendar that styles events (fill, text color, bold/italic/underline/strikethrough, emoji, background shade, and image) from a Reference (foreign key) column instead of a Choice/ChoiceList column. Background and image can also be mapped per event.",
+    "authors": [
+      {
+        "name": "calendar-ref-style",
+        "url": "https://github.com"
+      }
+    ],
+    "columns": [
+      {"name": "startDate", "title": "Start Date", "type": "Date,DateTime", "optional": false},
+      {"name": "endDate", "title": "End Date", "type": "Date,DateTime", "optional": true},
+      {"name": "isAllDay", "title": "Is All Day", "type": "Bool", "optional": true},
+      {"name": "title", "title": "Title", "type": "Text", "optional": false},
+      {"name": "category", "title": "Category", "type": "Ref,RefList", "optional": true},
+      {"name": "background", "title": "Background", "type": "Text", "optional": true},
+      {"name": "image", "title": "Image URL", "type": "Text", "optional": true}
+    ]
+  }
+]

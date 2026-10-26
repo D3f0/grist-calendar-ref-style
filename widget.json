@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "widgetId": "com.getgrist.widgets.calendar-ref-style",
+  "name": "Calendar (reference styling)",
+  "description": "Calendar widget that styles events from a Reference (foreign key) column instead of a Choice/ChoiceList column. Each event's colors and font are taken from the referenced category row.",
+  "entrypoint": "index.html",
+  "accessLevel": "full",
+  "columns": [
+    {
+      "name": "startDate",
+      "title": "Start Date",
+      "type": "Date,DateTime",
+      "description": "starting point of event",
+      "optional": false,
+      "allowMultiple": false,
+      "strictType": true
+    },
+    {
+      "name": "endDate",
+      "title": "End Date",
+      "type": "Date,DateTime",
+      "description": "ending point of event",
+      "optional": true,
+      "allowMultiple": false,
+      "strictType": true
+    },
+    {
+      "name": "isAllDay",
+      "title": "Is All Day",
+      "type": "Bool",
+      "description": "is event all day long",
+      "optional": true,
+      "strictType": true
+    },
+    {
+      "name": "title",
+      "title": "Title",
+      "type": "Text",
+      "description": "title of event",
+      "optional": false,
+      "allowMultiple": false
+    },
+    {
+      "name": "category",
+      "title": "Category",
+      "type": "Ref,RefList",
+      "description": "foreign key to a table whose row carries the event style (colors, font)",
+      "optional": true,
+      "allowMultiple": false
+    },
+    {
+      "name": "background",
+      "title": "Background",
+      "type": "Text",
+      "description": "per-event CSS background / shade (e.g. a gradient); overrides the category",
+      "optional": true,
+      "allowMultiple": false
+    },
+    {
+      "name": "image",
+      "title": "Image URL",
+      "type": "Text",
+      "description": "per-event image URL shown as the event background; overrides the category",
+      "optional": true,
+      "allowMultiple": false
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+:root {
+  --fg: var(--grist-theme-text, #262633);
+  --bg: var(--grist-theme-page-panels-main-panel-bg, #ffffff);
+  --border: var(--grist-theme-table-body-border, #e8e8e8);
+  --btn-hover: var(--grist-theme-hover, rgba(0, 0, 0, 0.06));
+  --accent: var(--grist-theme-accent-text, #16b378);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  color: var(--fg);
+  background: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+}
+
+#calendar-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+  flex: 0 0 auto;
+}
+
+.nav-group {
+  display: inline-flex;
+  gap: 2px;
+}
+
+#calendar-title {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+#btn-settings {
+  margin-left: auto;
+}
+
+.btn {
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  border-radius: 4px;
+  padding: 4px 10px;
+  line-height: 1.2;
+  user-select: none;
+}
+
+.btn:hover { background: var(--btn-hover); }
+
+#view-buttons .btn {
+  display: inline-flex;
+  align-items: center;
+}
+
+#view-buttons .btn input { display: none; }
+
+#view-buttons .btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#calendar {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+#calendar.readonly { cursor: default; }
+
+#settings-panel {
+  position: absolute;
+  top: 44px;
+  right: 8px;
+  z-index: 50;
+  width: 320px;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#settings-panel[hidden] { display: none; }
+
+.settings-help {
+  margin: 0 0 4px;
+  color: var(--fg);
+  opacity: 0.75;
+  font-size: 12px;
+}
+
+#settings-panel label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+}
+
+#settings-panel input {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 7px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 4px;
+}

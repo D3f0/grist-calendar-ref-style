@@ -1,0 +1,59 @@
+name: Deploy widget to GitHub Pages
+
+# Publishes the custom widget and its Grist manifest to GitHub Pages.
+# After the first successful run, wire Grist with either:
+#   GRIST_WIDGET_LIST_URL=<pages-url>/manifest.json   (gallery)
+#   or add a Custom URL widget at <pages-url>/index.html
+#
+# The public Pages URL is injected at build time: the __PAGES_BASE__ token in
+# manifest.json is replaced with the real base, so nothing is hardcoded.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Assemble site
+        env:
+          BASE: ${{ steps.pages.outputs.base_url }}
+        run: |
+          set -euo pipefail
+          base="${BASE%/}"
+          mkdir -p _site
+          cp src/* _site/
+          sed "s#__PAGES_BASE__#${base}#g" manifest.json > _site/manifest.json
+          echo "widget:   ${base}/index.html"
+          echo "manifest: ${base}/manifest.json"
+          cat _site/manifest.json
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
